@@ -5,7 +5,7 @@ venv_activate := if os() == 'windows' {
 }
 
 dist-python:
-    @source {{venv_activate}} && pyinstaller --distpath ./backend/dist --workpath ./backend/dist/build --specpath ./backend/dist/spec --onefile --noconsole ./backend/src/main.py
+    @source {{venv_activate}} && pyinstaller --distpath ./backend/dist --workpath ./backend/dist/build --specpath ./backend/dist/spec --onefile {{ if os() == "windows" { "--noconsole" } else { "" } }} ./backend/src/main.py
 
 dist-vite:
     @cd ./frontend && bun run build
