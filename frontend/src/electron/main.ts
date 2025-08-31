@@ -15,7 +15,9 @@ function createWindow() {
 }
 
 function startPythonBackend() {
-  const pythonPath = path.join(appPath, "..", "backend", "dist", "main");
+  const isWindows = process.platform === 'win32';
+  const executableName = isWindows ? 'main.exe' : 'main';
+  const pythonPath = path.join(appPath, "..", "backend", "dist", executableName);
 
   pythonProcess = spawn(pythonPath, {
     cwd: path.join(appPath, "..", "backend"),

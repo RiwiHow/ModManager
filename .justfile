@@ -1,11 +1,16 @@
+venv_activate := if os() == 'windows' {
+  './backend/.venv/Scripts/activate'
+} else {
+  './backend/.venv/bin/activate'
+}
+
 dist-python:
-    source ./backend/.venv/bin/activate
-    pyinstaller --distpath ./backend/dist --workpath ./backend/dist/build --specpath ./backend/dist/spec --onefile ./backend/src/main.py
+    @source {{venv_activate}} && pyinstaller --distpath ./backend/dist --workpath ./backend/dist/build --specpath ./backend/dist/spec --onefile --noconsole ./backend/src/main.py
 
 dist-vite:
-    cd ./frontend && bun run build
+    @cd ./frontend && bun run build
 
 dist:
     just dist-python
     just dist-vite
-    cd ./frontend && bun run dist
+    @cd ./frontend && bun run {{ if os() == "windows" { "dist:win" } else { "dist:mac" } }}

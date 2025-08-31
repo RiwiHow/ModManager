@@ -10,7 +10,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dist": "electron-builder --mac --arm64"
+    "dist:mac": "electron-builder --mac --arm64",
+    "dist:win": "electron-builder --win --x64"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -40,24 +41,21 @@
     "directories": {
       "output": "./dist/electron"
     },
-    "extraResources": [
-      {
-        "from": "../backend/dist/main",
-        "to": "backend/dist/main"
-      }
-    ],
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "extraResources": [
+        {
+          "from": "../backend/dist/main",
+          "to": "backend/dist/main"
+        }
+      ]
     },
     "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage",
-      "extraFiles": [
+      "target": "nsis",
+      "extraResources": [
         {
-          "from": "/usr/bin/python3",
-          "to": "python3"
+          "from": "../backend/dist/main.exe",
+          "to": "backend/dist/main.exe"
         }
       ]
     }
