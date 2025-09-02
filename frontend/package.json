@@ -3,27 +3,23 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "src/electron/main.ts",
   "scripts": {
-    "dev:react": "vite",
-    "dev:electron": "electron .",
+    "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "dist:mac": "electron-builder --mac --arm64",
-    "dist:win": "electron-builder --win --x64"
+    "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.12",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
-    "electron": "^37.4.0",
-    "electron-builder": "^26.0.12",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
@@ -32,32 +28,7 @@
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2"
   },
-  "build": {
-    "appId": "com.riwihow.modmanager",
-    "files": [
-      "dist/vite/**/*",
-      "src/electron/**/*"
-    ],
-    "directories": {
-      "output": "./dist/electron"
-    },
-    "mac": {
-      "target": "dmg",
-      "extraResources": [
-        {
-          "from": "../backend/dist/main",
-          "to": "backend/dist/main"
-        }
-      ]
-    },
-    "win": {
-      "target": "nsis",
-      "extraResources": [
-        {
-          "from": "../backend/dist/main.exe",
-          "to": "backend/dist/main.exe"
-        }
-      ]
-    }
-  }
+  "trustedDependencies": [
+    "@tailwindcss/oxide"
+  ]
 }

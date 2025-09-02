@@ -18,4 +18,3 @@ dist:
     just delete-dist
     just dist-python
     just dist-vite
-    @cd ./frontend && bun run {{ if os() == "windows" { "dist:win" } else { "dist:mac" } }}
