@@ -59,7 +59,7 @@ class ModResponse(ModBase):
 
 @app.get("/api/test")
 async def test_connection():
-    return {"message": "Backend connected successfully!"}
+    return {"message": "Connected successfully!"}
 
 
 # Game endpoints
