@@ -34,7 +34,7 @@ class GameResponse(GameBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class ModBase(BaseModel):
@@ -54,7 +54,7 @@ class ModResponse(ModBase):
     game_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 @app.get("/api/test")

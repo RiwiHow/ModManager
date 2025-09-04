@@ -6,4 +6,5 @@ __pycache__
 /frontend/dist
 /frontend/node_modules
 
+.vscode
 .DS_Store
