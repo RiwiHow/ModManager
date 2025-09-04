@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 
 type Game = {
   id: number;
@@ -6,7 +6,11 @@ type Game = {
   path: string;
 };
 
-export default function ShowInstalledGame() {
+export interface ShowInstalledGameRef {
+  refreshGames: () => void;
+}
+
+const ShowInstalledGame = forwardRef<ShowInstalledGameRef>((_, ref) => {
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -27,6 +31,10 @@ export default function ShowInstalledGame() {
       setIsLoading(false);
     }
   }
+
+  useImperativeHandle(ref, () => ({
+    refreshGames: fetchGames,
+  }));
 
   useEffect(() => {
     fetchGames();
@@ -64,4 +72,8 @@ export default function ShowInstalledGame() {
       )}
     </div>
   );
-}
+});
+
+ShowInstalledGame.displayName = "ShowInstalledGame";
+
+export default ShowInstalledGame;
