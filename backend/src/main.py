@@ -2,6 +2,7 @@ from typing import List
 
 import uvicorn
 from db.db_crud.games.game_create import create_game_db
+from db.db_crud.games.game_delete import delete_game_db
 from db.db_crud.pydantic import (
     GameCreate,
     GameResponse,
@@ -48,6 +49,14 @@ def get_game(game_id: int, db: Session = Depends(get_db)):
     if db_game is None:
         raise HTTPException(status_code=404, detail="Game not found")
     return db_game
+
+
+@app.delete("/api/games/{game_id}")
+def delete_game(game_id: int, db: Session = Depends(get_db)):
+    success = delete_game_db(game_id, db)
+    if not success:
+        raise HTTPException(status_code=404, detail="Game not found")
+    return {"message": f"Game with id {game_id} deleted successfully"}
 
 
 # Mod endpoints
