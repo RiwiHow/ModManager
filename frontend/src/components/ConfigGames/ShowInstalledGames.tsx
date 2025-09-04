@@ -1,45 +1,20 @@
-import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
-
-type Game = {
+export type Game = {
   id: number;
   name: string;
   path: string;
 };
 
-export interface ShowInstalledGameRef {
-  refreshGames: () => void;
+interface ShowInstalledGameProps {
+  games: Game[];
+  isLoading: boolean;
+  error: string;
 }
 
-const ShowInstalledGame = forwardRef<ShowInstalledGameRef>((_, ref) => {
-  const [games, setGames] = useState<Game[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  async function fetchGames() {
-    setIsLoading(true);
-    setError("");
-    try {
-      const response = await fetch("http://localhost:8000/api/games");
-      if (!response.ok) {
-        throw new Error(`Error fetching games: ${response.statusText}`);
-      }
-      const data = await response.json();
-      setGames(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  useImperativeHandle(ref, () => ({
-    refreshGames: fetchGames,
-  }));
-
-  useEffect(() => {
-    fetchGames();
-  }, []);
-
+export default function ShowInstalledGame({
+  games,
+  isLoading,
+  error,
+}: ShowInstalledGameProps) {
   return (
     <div>
       <h3 className="text-lg font-medium text-gray-700 mb-4">
@@ -72,8 +47,4 @@ const ShowInstalledGame = forwardRef<ShowInstalledGameRef>((_, ref) => {
       )}
     </div>
   );
-});
-
-ShowInstalledGame.displayName = "ShowInstalledGame";
-
-export default ShowInstalledGame;
+}

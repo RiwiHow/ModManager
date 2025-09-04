@@ -5,9 +5,9 @@ type GameData = {
   path: string;
 };
 
-type AddGamePathProps = {
-  onGameAdded?: () => void;
-};
+interface AddGamePathProps {
+  onGameAdded: () => Promise<void>;
+}
 
 export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
   const [gameData, setGameData] = useState<GameData>({ name: "", path: "" });
@@ -56,8 +56,9 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
       });
       setGameData({ name: "", path: "" });
 
+      // 调用回调函数刷新游戏列表
       if (onGameAdded) {
-        onGameAdded();
+        await onGameAdded();
       }
     } catch (error) {
       setMessage({

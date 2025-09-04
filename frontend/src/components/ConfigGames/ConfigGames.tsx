@@ -1,18 +1,38 @@
+import { useEffect, useState } from "react";
 import AddGamePath from "./AddGamePath";
+import type { Game } from "./ShowInstalledGames";
 import ShowInstalledGame from "./ShowInstalledGames";
-import type { ShowInstalledGameRef } from "./ShowInstalledGames";
-import { useRef } from "react";
 
 export default function ConfigGames() {
-  const showInstalledGameRef = useRef<ShowInstalledGameRef>(null);
+  const [games, setGames] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleGameAdded = () => {
-    showInstalledGameRef.current?.refreshGames();
-  };
+  async function fetchGames() {
+    setIsLoading(true);
+    setError("");
+    try {
+      const response = await fetch("http://localhost:8000/api/games");
+      if (!response.ok) {
+        throw new Error(`Error fetching games: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setGames(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchGames();
+  }, []);
+
   return (
     <main className="flex justify-center flex-col p-8 m-8">
-      <ShowInstalledGame ref={showInstalledGameRef} />
-      <AddGamePath onGameAdded={handleGameAdded} />
+      <ShowInstalledGame games={games} isLoading={isLoading} error={error} />
+      <AddGamePath onGameAdded={fetchGames} />
     </main>
   );
 }
