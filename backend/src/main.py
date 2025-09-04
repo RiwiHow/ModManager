@@ -1,10 +1,16 @@
-from typing import List, Optional
+from typing import List
 
 import uvicorn
-from db.db_create import Game, Mod, get_db, init_db
+from db.db_crud.games.game_create import create_game_db
+from db.db_crud.pydantic import (
+    GameCreate,
+    GameResponse,
+    ModCreate,
+    ModResponse,
+)
+from db.db_init import Game, Mod, get_db, init_db
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 init_db()
@@ -20,43 +26,6 @@ app.add_middleware(
 )
 
 
-# Pydantic models for request/response
-class GameBase(BaseModel):
-    name: str
-    path: str
-
-
-class GameCreate(GameBase):
-    pass
-
-
-class GameResponse(GameBase):
-    id: int
-
-    class Config:
-        from_attributes = True
-
-
-class ModBase(BaseModel):
-    name: str
-    folder_name: str
-    description: Optional[str] = None
-    version: Optional[str] = None
-    enabled: int = 1
-
-
-class ModCreate(ModBase):
-    pass
-
-
-class ModResponse(ModBase):
-    id: int
-    game_id: int
-
-    class Config:
-        from_attributes = True
-
-
 @app.get("/api/test")
 async def test_connection():
     return {"message": "Connected successfully!"}
@@ -65,11 +34,7 @@ async def test_connection():
 # Game endpoints
 @app.post("/api/games", response_model=GameResponse)
 def create_game(game: GameCreate, db: Session = Depends(get_db)):
-    db_game = Game(name=game.name, path=game.path)
-    db.add(db_game)
-    db.commit()
-    db.refresh(db_game)
-    return db_game
+    return create_game_db(game, db)
 
 
 @app.get("/api/games", response_model=List[GameResponse])
