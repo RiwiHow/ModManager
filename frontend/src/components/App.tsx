@@ -1,4 +1,4 @@
-import ConfigGames from "./ConfigGames/COnfigGames";
+import ConfigGames from "./ConfigGames/ConfigGames";
 import Header from "./Header";
 
 function App() {

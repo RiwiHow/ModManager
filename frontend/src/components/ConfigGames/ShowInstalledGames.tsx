@@ -1,3 +1,5 @@
+import DeleteGame from "./DeleteGame";
+
 export type Game = {
   id: number;
   name: string;
@@ -8,12 +10,14 @@ interface ShowInstalledGameProps {
   games: Game[];
   isLoading: boolean;
   error: string;
+  onGameDeleted: () => Promise<void>;
 }
 
 export default function ShowInstalledGame({
   games,
   isLoading,
   error,
+  onGameDeleted,
 }: ShowInstalledGameProps) {
   return (
     <div>
@@ -37,10 +41,15 @@ export default function ShowInstalledGame({
           {games.map((game) => (
             <li
               key={game.id}
-              className="py-3 border-b border-gray-200 last:border-b-0"
+              className="py-3 border-b border-gray-200 last:border-b-0 flex items-center justify-between"
             >
-              <strong className="text-gray-800">{game.name}</strong>
-              <span className="text-gray-600">: {game.path}</span>
+              <div className="flex-1">
+                <strong className="text-gray-800">{game.name}</strong>
+                <span className="text-gray-600">: {game.path}</span>
+              </div>
+              <div className="ml-4">
+                <DeleteGame game={game} onGameDeleted={onGameDeleted} />
+              </div>
             </li>
           ))}
         </ul>

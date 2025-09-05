@@ -31,7 +31,12 @@ export default function ConfigGames() {
 
   return (
     <main className="flex justify-center flex-col p-8 m-8">
-      <ShowInstalledGame games={games} isLoading={isLoading} error={error} />
+      <ShowInstalledGame
+        games={games}
+        isLoading={isLoading}
+        error={error}
+        onGameDeleted={fetchGames}
+      />
       <AddGamePath onGameAdded={fetchGames} />
     </main>
   );
