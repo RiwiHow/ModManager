@@ -3,6 +3,7 @@ from typing import List
 import uvicorn
 from db.db_crud.games.game_create import create_game_db
 from db.db_crud.games.game_delete import delete_game_db
+from db.db_crud.games.game_read import read_games_db
 from db.db_crud.pydantic import (
     GameCreate,
     GameResponse,
@@ -10,6 +11,7 @@ from db.db_crud.pydantic import (
     ModResponse,
 )
 from db.db_init import Game, Mod, get_db, init_db
+from db.db_test import db_test
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -17,7 +19,6 @@ from sqlalchemy.orm import Session
 init_db()
 app = FastAPI()
 
-# Enable CORS for frontend communication
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
@@ -28,19 +29,18 @@ app.add_middleware(
 
 
 @app.get("/api/test")
-async def test_connection():
-    return {"message": "Connected successfully!"}
+def test_connection():
+    return db_test()
 
 
-# Game endpoints
 @app.post("/api/games", response_model=GameResponse)
 def create_game(game: GameCreate, db: Session = Depends(get_db)):
     return create_game_db(game, db)
 
 
 @app.get("/api/games", response_model=List[GameResponse])
-def get_games(db: Session = Depends(get_db)):
-    return db.query(Game).all()
+def read_games(db: Session = Depends(get_db)):
+    return read_games_db(db)
 
 
 @app.get("/api/games/{game_id}", response_model=GameResponse)
