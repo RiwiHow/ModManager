@@ -11,6 +11,7 @@ interface ShowInstalledGameProps {
   isLoading: boolean;
   error: string;
   onGameDeleted: () => Promise<void>;
+  onManageMods: (game: Game) => void;
 }
 
 export default function ShowInstalledGame({
@@ -18,6 +19,7 @@ export default function ShowInstalledGame({
   isLoading,
   error,
   onGameDeleted,
+  onManageMods,
 }: ShowInstalledGameProps) {
   return (
     <div>
@@ -47,7 +49,13 @@ export default function ShowInstalledGame({
                 <strong className="text-gray-800">{game.name}</strong>
                 <span className="text-gray-600">: {game.path}</span>
               </div>
-              <div className="ml-4">
+              <div className="ml-4 flex items-center space-x-2">
+                <button
+                  onClick={() => onManageMods(game)}
+                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Manage Mods
+                </button>
                 <DeleteGame game={game} onGameDeleted={onGameDeleted} />
               </div>
             </li>

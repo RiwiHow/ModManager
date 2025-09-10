@@ -3,7 +3,11 @@ import AddGamePath from "./AddGamePath";
 import type { Game } from "./ShowInstalledGames";
 import ShowInstalledGame from "./ShowInstalledGames";
 
-export default function ConfigGames() {
+interface ConfigGamesProps {
+  onNavigateToMods: (game: Game) => void;
+}
+
+export default function ConfigGames({ onNavigateToMods }: ConfigGamesProps) {
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,6 +40,7 @@ export default function ConfigGames() {
         isLoading={isLoading}
         error={error}
         onGameDeleted={fetchGames}
+        onManageMods={onNavigateToMods}
       />
       <AddGamePath onGameAdded={fetchGames} />
     </main>
