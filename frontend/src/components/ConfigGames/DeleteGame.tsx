@@ -21,19 +21,19 @@ export default function DeleteGame({ game, onGameDeleted }: DeleteGameProps) {
         `http://localhost:8000/api/games/${game.id}`,
         {
           method: "DELETE",
-        }
+        },
       );
 
       if (!response.ok) {
         throw new Error(`Error deleting game: ${response.statusText}`);
       }
 
-      // 调用回调函数刷新游戏列表
+      // Call callback to refresh game list
       await onGameDeleted();
       setShowConfirmation(false);
     } catch (error) {
       console.error("Failed to delete game:", error);
-      alert("删除游戏失败，请重试");
+      alert("Failed to delete game, please try again");
     } finally {
       setIsDeleting(false);
     }
@@ -46,20 +46,22 @@ export default function DeleteGame({ game, onGameDeleted }: DeleteGameProps) {
   if (showConfirmation) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-600">确定删除吗？</span>
+        <span className="text-sm text-gray-600">
+          Are you sure you want to delete?
+        </span>
         <button
           onClick={handleConfirmDelete}
           disabled={isDeleting}
-          className="px-2 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="rounded bg-red-600 px-2 py-1 text-xs text-white hover:bg-red-700 "
         >
-          {isDeleting ? "删除中..." : "确定"}
+          {isDeleting ? "Deleting..." : "Yes"}
         </button>
         <button
           onClick={handleCancelDelete}
           disabled={isDeleting}
-          className="px-2 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="rounded bg-gray-500 px-2 py-1 text-xs text-white"
         >
-          取消
+          No
         </button>
       </div>
     );
@@ -68,10 +70,10 @@ export default function DeleteGame({ game, onGameDeleted }: DeleteGameProps) {
   return (
     <button
       onClick={handleDeleteClick}
-      className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
-      title="删除游戏"
+      className="rounded-md bg-red-500 px-3 py-1 text-sm text-white transition-colors"
+      title="Delete Game"
     >
-      删除
+      Delete
     </button>
   );
 }

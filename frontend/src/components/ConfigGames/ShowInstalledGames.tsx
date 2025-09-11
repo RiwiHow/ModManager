@@ -23,36 +23,33 @@ export default function ShowInstalledGame({
 }: ShowInstalledGameProps) {
   return (
     <div>
-      <h3 className="text-lg font-medium text-gray-700 mb-4">
-        Configured Games
-      </h3>
+      <h3 className="header-2 mb-4">Configured Games</h3>
       {isLoading && <p className="text-gray-600">Loading...</p>}
 
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-3 rounded mb-4">
+        <div className="mb-4 rounded border-l-4 border-red-500 bg-red-50 p-3 text-red-700">
           {error}
         </div>
       )}
 
-      {games.length === 0 && !isLoading ? (
+      {games.length === 0 && !isLoading && !error ? (
         <p className="text-gray-600">
           No games configured yet. Add your first game below.
         </p>
       ) : (
-        <ul className="space-y-0">
+        <ul>
           {games.map((game) => (
             <li
               key={game.id}
-              className="py-3 border-b border-gray-200 last:border-b-0 flex items-center justify-between"
+              className="flex items-center border-b border-gray-200 py-2 last:border-b-0"
             >
               <div className="flex-1">
-                <strong className="text-gray-800">{game.name}</strong>
-                <span className="text-gray-600">: {game.path}</span>
+                <span className="game-name">{game.name}</span>
               </div>
-              <div className="ml-4 flex items-center space-x-2">
+              <div className="flex items-center space-x-2">
                 <button
                   onClick={() => onManageMods(game)}
-                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="rounded-md bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700"
                 >
                   Manage Mods
                 </button>

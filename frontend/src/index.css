@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+.header-1 {
+  @apply text-2xl font-bold text-gray-800;
+}
+
+.header-2 {
+  @apply text-lg font-semibold text-gray-700;
+}
+
+.game-name {
+  @apply text-base text-gray-600;
+}

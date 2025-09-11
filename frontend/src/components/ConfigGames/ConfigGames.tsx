@@ -34,7 +34,7 @@ export default function ConfigGames({ onNavigateToMods }: ConfigGamesProps) {
   }, []);
 
   return (
-    <main className="flex justify-center flex-col p-8 m-8">
+    <main className="m-8 flex flex-col p-8">
       <ShowInstalledGame
         games={games}
         isLoading={isLoading}

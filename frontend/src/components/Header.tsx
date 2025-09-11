@@ -19,16 +19,14 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-sm">
-      <div className="max-w-4xl ml-4 py-4">
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold text-gray-800">Mod Manager</h1>
-          <div
-            className={`w-3 h-3 rounded-full ${
-              backendStatus ? "bg-green-500 animate-pulse" : "bg-red-500"
-            }`}
-          />
-        </div>
-        <p className="text-sm text-gray-600 mt-1">
+      <div className="ml-4 py-4">
+        <h1 className="header-1 inline-block">Mod Manager</h1>
+        <div
+          className={`ml-2 inline-block h-3 w-3 rounded-full ${
+            backendStatus ? "animate-pulse bg-green-500" : "bg-red-500"
+          }`}
+        />
+        <p className="mt-1 text-sm text-gray-600">
           Backend status: {backendStatus ? "Connected!" : "Not connected!"}
         </p>
       </div>
