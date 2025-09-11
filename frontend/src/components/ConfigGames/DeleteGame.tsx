@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Game } from "./ShowInstalledGames";
+import Button from "../../ui/Button";
 
 interface DeleteGameProps {
   game: Game;
@@ -49,31 +50,27 @@ export default function DeleteGame({ game, onGameDeleted }: DeleteGameProps) {
         <span className="text-sm text-gray-600">
           Are you sure you want to delete?
         </span>
-        <button
+        <Button
+          variant="delete-confirm"
           onClick={handleConfirmDelete}
           disabled={isDeleting}
-          className="rounded bg-red-600 px-2 py-1 text-xs text-white hover:bg-red-700 "
         >
           {isDeleting ? "Deleting..." : "Yes"}
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="delete-cancel"
           onClick={handleCancelDelete}
           disabled={isDeleting}
-          className="rounded bg-gray-500 px-2 py-1 text-xs text-white"
         >
           No
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
-    <button
-      onClick={handleDeleteClick}
-      className="rounded-md bg-red-500 px-3 py-1 text-sm text-white transition-colors"
-      title="Delete Game"
-    >
+    <Button variant="delete" onClick={handleDeleteClick} title="Delete Game">
       Delete
-    </button>
+    </Button>
   );
 }

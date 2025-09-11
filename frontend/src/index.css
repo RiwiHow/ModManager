@@ -8,6 +8,26 @@
   @apply text-lg font-semibold text-gray-700;
 }
 
-.game-name {
+.normal-text {
   @apply text-base text-gray-600;
+}
+
+.manage-mods {
+  @apply rounded-md bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700;
+}
+
+.delete {
+  @apply rounded-md bg-red-500 px-3 py-1 text-sm text-white transition-colors;
+}
+
+.delete-confirm {
+  @apply rounded bg-red-600 px-2 py-1 text-xs text-white hover:bg-red-700;
+}
+
+.delete-cancel {
+  @apply rounded bg-gray-500 px-2 py-1 text-xs text-white;
+}
+
+.primary-full {
+  @apply w-full rounded-md bg-blue-600 px-4 py-2 text-white;
 }

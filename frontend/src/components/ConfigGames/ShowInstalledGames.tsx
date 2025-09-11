@@ -1,4 +1,5 @@
 import DeleteGame from "./DeleteGame";
+import Button from "../../ui/Button";
 
 export type Game = {
   id: number;
@@ -24,7 +25,7 @@ export default function ShowInstalledGame({
   return (
     <div>
       <h3 className="header-2 mb-4">Configured Games</h3>
-      {isLoading && <p className="text-gray-600">Loading...</p>}
+      {isLoading && <p className="normal-text">Loading...</p>}
 
       {error && (
         <div className="mb-4 rounded border-l-4 border-red-500 bg-red-50 p-3 text-red-700">
@@ -33,7 +34,7 @@ export default function ShowInstalledGame({
       )}
 
       {games.length === 0 && !isLoading && !error ? (
-        <p className="text-gray-600">
+        <p className="normal-text">
           No games configured yet. Add your first game below.
         </p>
       ) : (
@@ -44,15 +45,15 @@ export default function ShowInstalledGame({
               className="flex items-center border-b border-gray-200 py-2 last:border-b-0"
             >
               <div className="flex-1">
-                <span className="game-name">{game.name}</span>
+                <span className="normal-text">{game.name}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <button
+                <Button
+                  variant="manage-mods"
                   onClick={() => onManageMods(game)}
-                  className="rounded-md bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700"
                 >
                   Manage Mods
-                </button>
+                </Button>
                 <DeleteGame game={game} onGameDeleted={onGameDeleted} />
               </div>
             </li>

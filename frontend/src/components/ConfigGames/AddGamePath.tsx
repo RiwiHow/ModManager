@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../../ui/Button";
 
 type GameData = {
   name: string;
@@ -45,7 +46,7 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.detail || `HTTP error! status: ${response.status}`
+          errorData.detail || `HTTP error! status: ${response.status}`,
         );
       }
 
@@ -72,13 +73,13 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
 
   return (
     <div className="mt-8">
-      <h3 className="text-lg font-medium text-gray-700 mb-4">Add a new Game</h3>
+      <h3 className="mb-4 text-lg font-medium text-gray-700">Add a new Game</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1 block text-sm font-medium text-gray-700"
           >
             Game Name
           </label>
@@ -88,7 +89,7 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
             name="name"
             value={gameData.name}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
             disabled={isSubmitting}
           />
         </div>
@@ -96,7 +97,7 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
         <div>
           <label
             htmlFor="path"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1 block text-sm font-medium text-gray-700"
           >
             Game Path
           </label>
@@ -106,26 +107,22 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
             name="path"
             value={gameData.path}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
             disabled={isSubmitting}
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+        <Button type="submit" variant="primary-full" disabled={isSubmitting}>
           {isSubmitting ? "添加中..." : "添加游戏"}
-        </button>
+        </Button>
       </form>
 
       {message && (
         <div
-          className={`mt-4 p-3 rounded-md ${
+          className={`mt-4 rounded-md p-3 ${
             message.type === "success"
-              ? "bg-green-50 border-l-4 border-green-500 text-green-700"
-              : "bg-red-50 border-l-4 border-red-500 text-red-700"
+              ? "border-l-4 border-green-500 bg-green-50 text-green-700"
+              : "border-l-4 border-red-500 bg-red-50 text-red-700"
           }`}
         >
           {message.text}
