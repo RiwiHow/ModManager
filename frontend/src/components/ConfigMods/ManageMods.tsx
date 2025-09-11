@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Game } from "../ConfigGames/ShowInstalledGames";
+import Button from "../../ui/Button";
 
 export type Mod = {
   id: number;
   name: string;
+  description: string;
   version: string;
+  enabled: boolean;
   gameId: number;
-  gameName: string;
-  isEnabled: boolean;
-  installPath: string;
 };
 
 interface ManageModsProps {
@@ -24,80 +24,52 @@ export default function ManageMods({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // 模拟获取 Mod 数据 - 后续需要从后端 API 获取
-  useEffect(() => {
-    const fetchMods = async () => {
-      try {
-        setIsLoading(true);
-        // 这里后续需要调用实际的 API
-        // const response = await fetch(`/api/mods?gameId=${selectedGame?.id}`);
-        // const data = await response.json();
+  const fetchMods = useCallback(async () => {
+    if (!selectedGame?.id) {
+      setMods([]);
+      setIsLoading(false);
+      return;
+    }
 
-        // 模拟数据 - 根据选中的游戏过滤
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        const allMockMods: Mod[] = [
-          {
-            id: 1,
-            name: "Graphics Enhancement Mod",
-            version: "1.2.0",
-            gameId: 1,
-            gameName: "Game A",
-            isEnabled: true,
-            installPath: "/path/to/mod1",
-          },
-          {
-            id: 2,
-            name: "UI Improvement Pack",
-            version: "2.1.5",
-            gameId: 1,
-            gameName: "Game A",
-            isEnabled: false,
-            installPath: "/path/to/mod2",
-          },
-          {
-            id: 3,
-            name: "Performance Booster",
-            version: "3.0.1",
-            gameId: 2,
-            gameName: "Game B",
-            isEnabled: true,
-            installPath: "/path/to/mod3",
-          },
-        ];
+    setIsLoading(true);
+    setError("");
 
-        // 根据选中的游戏过滤 Mods
-        const filteredMods = selectedGame
-          ? allMockMods.filter((mod) => mod.gameId === selectedGame.id)
-          : allMockMods;
-
-        setMods(filteredMods);
-      } catch {
-        setError("Failed to load mods");
-      } finally {
-        setIsLoading(false);
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/games/${selectedGame.id}/mods`,
+      );
+      if (!response.ok) {
+        throw new Error(`Error fetching mods: ${response.status}`);
       }
-    };
 
+      const data = await response.json();
+      setMods(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setIsLoading(false);
+    }
+  }, [selectedGame?.id]);
+
+  useEffect(() => {
     fetchMods();
-  }, [selectedGame]);
+  }, [fetchMods]);
+
   const toggleModStatus = async (modId: number) => {
     // 这里后续需要调用 API 来切换 mod 状态
     setMods((prevMods) =>
       prevMods.map((mod) =>
-        mod.id === modId ? { ...mod, isEnabled: !mod.isEnabled } : mod
-      )
+        mod.id === modId ? { ...mod, isEnabled: !mod.enabled } : mod,
+      ),
     );
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="mx-auto max-w-4xl p-6">
       <div className="mb-6">
-        <button
-          onClick={onBackToGames}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
+        <Button onClick={onBackToGames} variant="back">
           <svg
-            className="w-4 h-4 mr-2"
+            className="mr-2 h-4 w-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -110,7 +82,7 @@ export default function ManageMods({
             />
           </svg>
           Back to Games
-        </button>
+        </Button>
       </div>
 
       <div className="mb-8">
@@ -128,21 +100,21 @@ export default function ManageMods({
 
       {/* 加载状态 */}
       {isLoading && (
-        <div className="text-center py-8">
+        <div className="py-8 text-center">
           <p className="text-gray-600">Loading mods...</p>
         </div>
       )}
 
       {/* 错误状态 */}
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
+        <div className="mb-6 rounded border-l-4 border-red-500 bg-red-50 p-4 text-red-700">
           {error}
         </div>
       )}
 
       {/* Mod 列表 */}
       {!isLoading && !error && (
-        <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+        <div className="overflow-hidden rounded-lg bg-white shadow-sm">
           {mods.length === 0 ? (
             <div className="p-8 text-center">
               <p className="text-gray-600">No mods installed yet.</p>
@@ -158,39 +130,31 @@ export default function ManageMods({
                           {mod.name}
                         </h3>
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            mod.isEnabled
+                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                            mod.enabled
                               ? "bg-green-100 text-green-800"
                               : "bg-gray-100 text-gray-800"
                           }`}
                         >
-                          {mod.isEnabled ? "Enabled" : "Disabled"}
+                          {mod.enabled ? "Enabled" : "Disabled"}
                         </span>
                       </div>
                       <div className="mt-1 text-sm text-gray-600">
                         <p>Version: {mod.version}</p>
-                        <p>Game: {mod.gameName}</p>
-                        <p>Path: {mod.installPath}</p>
                       </div>
                     </div>
 
                     <div className="flex items-center space-x-3">
                       {/* 启用/禁用切换 */}
-                      <button
+                      <Button
                         onClick={() => toggleModStatus(mod.id)}
-                        className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                          mod.isEnabled
-                            ? "text-red-700 bg-red-100 hover:bg-red-200 focus:ring-red-500"
-                            : "text-green-700 bg-green-100 hover:bg-green-200 focus:ring-green-500"
-                        }`}
+                        variant={mod.enabled ? "disable" : "enable"}
                       >
-                        {mod.isEnabled ? "Disable" : "Enable"}
-                      </button>
+                        {mod.enabled ? "Disable" : "Enable"}
+                      </Button>
 
                       {/* 删除按钮 */}
-                      <button className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                        Remove
-                      </button>
+                      <Button variant="remove">Remove</Button>
                     </div>
                   </div>
                 </div>
@@ -203,9 +167,9 @@ export default function ManageMods({
       {/* 添加 Mod 按钮 */}
       {!isLoading && !error && (
         <div className="mt-6">
-          <button className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <Button variant="install">
             <svg
-              className="w-4 h-4 mr-2"
+              className="mr-2 h-4 w-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -218,7 +182,7 @@ export default function ManageMods({
               />
             </svg>
             Install New Mod
-          </button>
+          </Button>
         </div>
       )}
     </div>

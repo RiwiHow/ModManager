@@ -6,7 +6,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "delete"
     | "delete-confirm"
     | "delete-cancel"
-    | "primary-full";
+    | "primary-full"
+    | "back"
+    | "enable"
+    | "disable"
+    | "remove"
+    | "install";
   children: ReactNode;
   loading?: boolean;
 }

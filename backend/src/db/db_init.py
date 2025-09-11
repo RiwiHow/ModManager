@@ -26,7 +26,6 @@ class Mod(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    folder_name = Column(String)
     description = Column(String, nullable=True)
     version = Column(String, nullable=True)
     enabled = Column(Integer, default=1)  # 1 for enabled, 0 for disabled

@@ -22,7 +22,6 @@ class GameResponse(GameBase):
 
 class ModBase(BaseModel):
     name: str
-    folder_name: str
     description: Optional[str] = None
     version: Optional[str] = None
     enabled: int = 1

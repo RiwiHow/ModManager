@@ -70,7 +70,6 @@ def create_mod(game_id: int, mod: ModCreate, db: Session = Depends(get_db)):
     # Create mod
     db_mod = Mod(
         name=mod.name,
-        folder_name=mod.folder_name,
         description=mod.description,
         version=mod.version,
         enabled=mod.enabled,

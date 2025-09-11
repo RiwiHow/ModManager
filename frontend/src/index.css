@@ -31,3 +31,23 @@
 .primary-full {
   @apply w-full rounded-md bg-blue-600 px-4 py-2 text-white;
 }
+
+.back {
+  @apply inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700;
+}
+
+.enable {
+  @apply inline-flex items-center rounded-md bg-green-100 px-3 py-2 text-sm font-medium text-green-700;
+}
+
+.disable {
+  @apply inline-flex items-center rounded-md px-3 py-2 text-sm font-medium;
+}
+
+.remove {
+  @apply inline-flex items-center rounded-md bg-red-100 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-200 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none;
+}
+
+.install {
+  @apply text-whit inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium;
+}
