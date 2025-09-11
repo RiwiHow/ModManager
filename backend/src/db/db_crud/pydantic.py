@@ -31,6 +31,13 @@ class ModCreate(ModBase):
     pass
 
 
+class ModUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    version: Optional[str] = None
+    enabled: Optional[int] = None
+
+
 class ModResponse(ModBase):
     id: int
     game_id: int
