@@ -12,6 +12,10 @@
   @apply text-base text-gray-600;
 }
 
+.sub-normal-text {
+  @apply text-sm text-gray-500;
+}
+
 .manage-mods {
   @apply rounded-md bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700;
 }
@@ -49,5 +53,5 @@
 }
 
 .install {
-  @apply text-whit inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium;
+  @apply inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white;
 }

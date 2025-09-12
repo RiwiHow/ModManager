@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ConfigGames from "./ConfigGames/ConfigGames";
 import Header from "./Header";
-import ManageMods from "./ConfigMods/ManageMods";
+import ConfigMods from "./ConfigMods/ConfigMods";
 import type { Game } from "./ConfigGames/ShowInstalledGames";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
       {currentView === "games" ? (
         <ConfigGames onNavigateToMods={handleNavigateToMods} />
       ) : (
-        <ManageMods
+        <ConfigMods
           onBackToGames={handleBackToGames}
           selectedGame={selectedGame}
         />

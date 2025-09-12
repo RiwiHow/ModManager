@@ -38,12 +38,9 @@ export default function ShowInstalledGame({
           No games configured yet. Add your first game below.
         </p>
       ) : (
-        <ul>
+        <ul className="divide-y divide-gray-200">
           {games.map((game) => (
-            <li
-              key={game.id}
-              className="flex items-center border-b border-gray-200 py-2 last:border-b-0"
-            >
+            <li key={game.id} className="flex items-center py-2">
               <div className="flex-1">
                 <span className="normal-text">{game.name}</span>
               </div>
