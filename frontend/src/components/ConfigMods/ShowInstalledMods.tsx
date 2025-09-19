@@ -1,11 +1,16 @@
 import Button from "../../ui/Button";
 import type { Mod } from "./ConfigMods";
+import DeleteMod from "./DeleteMod";
 
 interface ShowInstalledModsProps {
   mods: Mod[];
+  onModDeleted: () => Promise<void>;
 }
 
-export function ShowInstalledMods({ mods }: ShowInstalledModsProps) {
+export function ShowInstalledMods({
+  mods,
+  onModDeleted,
+}: ShowInstalledModsProps) {
   return (
     <ul className="divide-y divide-gray-200">
       {mods.map((mod) => (
@@ -34,7 +39,7 @@ export function ShowInstalledMods({ mods }: ShowInstalledModsProps) {
                 {mod.enabled ? "Disable" : "Enable"}
               </Button>
 
-              <Button variant="remove">Remove</Button>
+              <DeleteMod mod_id={mod.id} onModDeleted={onModDeleted} />
             </div>
           </div>
         </li>

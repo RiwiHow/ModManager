@@ -15,9 +15,9 @@ from db.db_crud.pydantic import (
     ModResponse,
     ModUpdate,
 )
-from db.db_init import Game, Mod, get_db, init_db
+from db.db_init import get_db, init_db
 from db.db_test import db_test
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 

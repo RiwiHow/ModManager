@@ -94,29 +94,14 @@ export default function ConfigMods({
               <p className="sub-normal-text">No mods installed yet.</p>
             </div>
           ) : (
-            <ShowInstalledMods mods={mods} />
+            <ShowInstalledMods mods={mods} onModDeleted={fetchMods} />
           )}
         </div>
       )}
 
       {!isLoading && !error && (
         <div className="mt-6">
-          <Button variant="install">
-            <svg
-              className="mr-2 h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            Install New Mod
-          </Button>
+          <Button variant="install">Install New Mod</Button>
         </div>
       )}
     </div>
