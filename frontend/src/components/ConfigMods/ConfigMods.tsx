@@ -8,7 +8,7 @@ export type Mod = {
   name: string;
   description: string;
   version: string;
-  enabled: boolean;
+  enabled: number; 
   gameId: number;
 };
 
