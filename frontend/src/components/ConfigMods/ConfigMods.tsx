@@ -2,13 +2,14 @@ import { useState, useEffect, useCallback } from "react";
 import type { Game } from "../ConfigGames/ShowInstalledGames";
 import Button from "../../ui/Button";
 import { ShowInstalledMods } from "./ShowInstalledMods";
+import InstallMod from "./InstallMod";
 
 export type Mod = {
   id: number;
   name: string;
   description: string;
   version: string;
-  enabled: number; 
+  enabled: number;
   gameId: number;
 };
 
@@ -24,6 +25,7 @@ export default function ConfigMods({
   const [mods, setMods] = useState<Mod[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showInstallMod, setShowInstallMod] = useState(false);
 
   const fetchMods = useCallback(async () => {
     if (!selectedGame?.id) {
@@ -55,6 +57,15 @@ export default function ConfigMods({
   useEffect(() => {
     fetchMods();
   }, [fetchMods]);
+
+  const handleModInstalled = () => {
+    setShowInstallMod(false);
+    fetchMods();
+  };
+
+  const handleCancelInstall = () => {
+    setShowInstallMod(false);
+  };
 
   return (
     <div className="mx-auto max-w-4xl p-6">
@@ -101,8 +112,18 @@ export default function ConfigMods({
 
       {!isLoading && !error && (
         <div className="mt-6">
-          <Button variant="install">Install New Mod</Button>
+          <Button variant="install" onClick={() => setShowInstallMod(true)}>
+            Install New Mod
+          </Button>
         </div>
+      )}
+
+      {showInstallMod && selectedGame && (
+        <InstallMod
+          gameId={selectedGame.id}
+          onModInstalled={handleModInstalled}
+          onCancel={handleCancelInstall}
+        />
       )}
     </div>
   );

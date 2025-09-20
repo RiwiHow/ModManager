@@ -6,5 +6,7 @@ __pycache__
 /frontend/dist
 /frontend/node_modules
 
+/TEST_GAME
+
 .vscode
 .DS_Store
