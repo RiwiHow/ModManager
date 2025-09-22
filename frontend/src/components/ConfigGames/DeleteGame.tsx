@@ -19,7 +19,7 @@ export default function DeleteGame({ game, onGameDeleted }: DeleteGameProps) {
     setIsDeleting(true);
     try {
       const response = await fetch(
-        `http://localhost:8000/api/games/${game.id}`,
+        `http://localhost:8000/api/games/${game.id}/delete`,
         {
           method: "DELETE",
         },

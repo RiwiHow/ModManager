@@ -45,7 +45,7 @@ export default function InstallMod({
       }
 
       const response = await fetch(
-        `http://localhost:8000/api/games/${gameId}/mods/install`,
+        `http://localhost:8000/api/games/${gameId}/mods/create`,
         {
           method: "POST",
           body: formData,

@@ -39,23 +39,23 @@ def test_connection():
 
 
 # Game Endponit
-@app.post("/api/games", response_model=GameResponse)
+@app.post("/api/games/create", response_model=GameResponse)
 def create_game(game: GameCreate, db: Session = Depends(get_db)):
     return create_game_db(game, db)
 
 
-@app.get("/api/games", response_model=List[GameResponse])
+@app.get("/api/games/list", response_model=List[GameResponse])
 def read_games(db: Session = Depends(get_db)):
     return read_games_db(db)
 
 
-@app.delete("/api/games/{game_id}")
+@app.delete("/api/games/{game_id}/delete")
 def delete_game(game_id: int, db: Session = Depends(get_db)):
     return delete_game_db(game_id, db)
 
 
 # Mod endpoints
-@app.post("/api/games/{game_id}/mods/install", response_model=ModResponse)
+@app.post("/api/games/{game_id}/mods/create", response_model=ModResponse)
 async def install_mod(
     game_id: int,
     file: UploadFile,
@@ -65,22 +65,22 @@ async def install_mod(
     return await install_mod_from_file(game_id, file, mod_name, db)
 
 
-@app.get("/api/games/{game_id}/mods", response_model=List[ModResponse])
+@app.get("/api/games/{game_id}/mods/list", response_model=List[ModResponse])
 def get_mods(game_id: int, db: Session = Depends(get_db)):
     return read_mods_db(game_id, db)
 
 
-@app.put("/api/mods/{mod_id}", response_model=ModResponse)
+@app.put("/api/games/{game_id}/mods/{mod_id}/update", response_model=ModResponse)
 def update_mod(mod_id: int, mod_update: ModUpdate, db: Session = Depends(get_db)):
     return update_mod_db(mod_id, mod_update, db)
 
 
-@app.get("/api/mods/{mod_id}", response_model=ModResponse)
+@app.get("/api/games/{game_id}/mods/{mod_id}/read", response_model=ModResponse)
 def get_mod(mod_id: int, db: Session = Depends(get_db)):
     return read_mod_db(mod_id, db)
 
 
-@app.delete("/api/mods/{mod_id}")
+@app.delete("/api/games/{game_id}/mods/{mod_id}/delete")
 def delete_mod(mod_id: int, db: Session = Depends(get_db)):
     return delete_mod_db(mod_id, db)
 

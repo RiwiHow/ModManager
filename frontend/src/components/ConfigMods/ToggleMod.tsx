@@ -2,12 +2,14 @@ import { useState } from "react";
 import Button from "../../ui/Button";
 
 interface ToggleModProps {
+  game_id: number;
   mod_id: number;
   enabled: boolean;
   onToggle: () => Promise<void>;
 }
 
 export default function ToggleMod({
+  game_id,
   mod_id,
   enabled,
   onToggle,
@@ -20,15 +22,18 @@ export default function ToggleMod({
     setError("");
 
     try {
-      const response = await fetch(`http://localhost:8000/api/mods/${mod_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://localhost:8000/api/games/${game_id}/mods/${mod_id}/update`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            enabled: enabled ? 0 : 1,
+          }),
         },
-        body: JSON.stringify({
-          enabled: enabled ? 0 : 1,
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`Error toggling this mod: ${response.statusText}`);

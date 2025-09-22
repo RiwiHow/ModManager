@@ -39,7 +39,7 @@ export default function ConfigMods({
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/games/${selectedGame.id}/mods`,
+        `http://localhost:8000/api/games/${selectedGame.id}/mods/list`,
       );
       if (!response.ok) {
         throw new Error(`Error fetching mods: ${response.status}`);
@@ -105,7 +105,11 @@ export default function ConfigMods({
               <p className="sub-normal-text">No mods installed yet.</p>
             </div>
           ) : (
-            <ShowInstalledMods mods={mods} onModDeleted={fetchMods} />
+            <ShowInstalledMods
+              mods={mods}
+              onModDeleted={fetchMods}
+              selectedGame={selectedGame as Game}
+            />
           )}
         </div>
       )}

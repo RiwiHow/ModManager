@@ -35,7 +35,7 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
     setMessage(null);
 
     try {
-      const response = await fetch("http://localhost:8000/api/games", {
+      const response = await fetch("http://localhost:8000/api/games/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

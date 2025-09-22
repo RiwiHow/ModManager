@@ -1,13 +1,16 @@
 import type { Mod } from "./ConfigMods";
+import type { Game } from "../ConfigGames/ShowInstalledGames";
 import DeleteMod from "./DeleteMod";
 import ToggleMod from "./ToggleMod";
 
 interface ShowInstalledModsProps {
+  selectedGame: Game;
   mods: Mod[];
   onModDeleted: () => Promise<void>;
 }
 
 export function ShowInstalledMods({
+  selectedGame,
   mods,
   onModDeleted,
 }: ShowInstalledModsProps) {
@@ -36,12 +39,13 @@ export function ShowInstalledMods({
 
             <div className="flex items-center space-x-3">
               <ToggleMod
+                game_id={selectedGame.id}
                 mod_id={mod.id}
                 enabled={mod.enabled === 1}
                 onToggle={onModDeleted}
               />
 
-              <DeleteMod mod_id={mod.id} onModDeleted={onModDeleted} />
+              <DeleteMod mod_id={mod.id} onModDeleted={onModDeleted} game_id={selectedGame.id}/>
             </div>
           </div>
         </li>

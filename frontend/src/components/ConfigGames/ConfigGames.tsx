@@ -16,7 +16,7 @@ export default function ConfigGames({ onNavigateToMods }: ConfigGamesProps) {
     setIsLoading(true);
     setError("");
     try {
-      const response = await fetch("http://localhost:8000/api/games");
+      const response = await fetch("http://localhost:8000/api/games/list");
       if (!response.ok) {
         throw new Error(`Error fetching games: ${response.statusText}`);
       }
