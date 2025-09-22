@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import HTTPException
 from utils.file_utils import (
     copy_archive_to_temp_path,
@@ -5,6 +7,7 @@ from utils.file_utils import (
     extract_archive_to_managed_path,
     install_mod_to_game_directory,
 )
+from utils.game_detect import mod_path_detect
 
 
 async def mod_installer(mod_name, file, game):
@@ -23,7 +26,7 @@ async def mod_installer(mod_name, file, game):
         raise HTTPException(status_code=400, detail="Failed to extract compressed file")
 
     # Install mod to game directory (copy from our storage to game directory)
-    install_mod_to_game_directory(MOD_STORAGE_DIR, game.path)
+    install_mod_to_game_directory(MOD_STORAGE_DIR, game.mod_path)
 
     # Clean up the compressed file after extraction
     TEMP_ARCHIVE_PATH.unlink()

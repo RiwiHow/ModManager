@@ -54,11 +54,9 @@ def extract_archive_to_managed_path(file_path: str, extract_to: str):
         return False
 
 
-def install_mod_to_game_directory(managed_mod_path, game_path: str):
-    game_path_obj = Path(game_path)
-
+def install_mod_to_game_directory(managed_mod_path, game_path: Path):
     try:
-        shutil.copytree(managed_mod_path, game_path_obj, dirs_exist_ok=True)
+        shutil.copytree(managed_mod_path, game_path, dirs_exist_ok=True)
     except Exception:
         raise
 

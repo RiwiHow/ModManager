@@ -15,7 +15,8 @@ class Game(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    path = Column(String, unique=True)
+    exe_path = Column(String, unique=True)
+    mod_path = Column(String, unique=True)
 
     # Relationship: one game has many mods
     mods = relationship("Mod", back_populates="game")

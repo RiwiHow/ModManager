@@ -3,7 +3,7 @@ import Button from "../../ui/Button";
 
 type GameData = {
   name: string;
-  path: string;
+  exe_path: string;
 };
 
 interface AddGamePathProps {
@@ -11,7 +11,10 @@ interface AddGamePathProps {
 }
 
 export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
-  const [gameData, setGameData] = useState<GameData>({ name: "", path: "" });
+  const [gameData, setGameData] = useState<GameData>({
+    name: "",
+    exe_path: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
@@ -26,8 +29,11 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!gameData.name.trim() || !gameData.path.trim()) {
-      setMessage({ type: "error", text: "请填写游戏名称和路径" });
+    if (!gameData.name.trim() || !gameData.exe_path.trim()) {
+      setMessage({
+        type: "error",
+        text: "Please fill in the game name and path.",
+      });
       return;
     }
 
@@ -50,21 +56,15 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
         );
       }
 
-      const newGame = await response.json();
-      setMessage({
-        type: "success",
-        text: `游戏 "${newGame.name}" 添加成功！`,
-      });
-      setGameData({ name: "", path: "" });
-
-      // 调用回调函数刷新游戏列表
-      if (onGameAdded) {
-        await onGameAdded();
-      }
+      setGameData({ name: "", exe_path: "" });
+      await onGameAdded();
     } catch (error) {
       setMessage({
         type: "error",
-        text: error instanceof Error ? error.message : "添加游戏时发生错误",
+        text:
+          error instanceof Error
+            ? error.message
+            : "An error occurred while adding the game.",
       });
     } finally {
       setIsSubmitting(false);
@@ -103,9 +103,9 @@ export default function AddGamePath({ onGameAdded }: AddGamePathProps) {
           </label>
           <input
             type="text"
-            id="path"
-            name="path"
-            value={gameData.path}
+            id="exe_path"
+            name="exe_path"
+            value={gameData.exe_path}
             onChange={handleInputChange}
             className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
             disabled={isSubmitting}

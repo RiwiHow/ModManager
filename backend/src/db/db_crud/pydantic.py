@@ -1,12 +1,13 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 # Pydantic models for request/response
 class GameBase(BaseModel):
     name: str
-    path: str
+    exe_path: str
+    mod_path: Optional[str] = None
 
 
 class GameCreate(GameBase):
@@ -16,8 +17,7 @@ class GameCreate(GameBase):
 class GameResponse(GameBase):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ModBase(BaseModel):
@@ -42,5 +42,4 @@ class ModResponse(ModBase):
     id: int
     game_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
