@@ -71,8 +71,8 @@ def get_mods(game_id: int, db: Session = Depends(get_db)):
 
 
 @app.put("/api/games/{game_id}/mods/{mod_id}/update", response_model=ModResponse)
-def update_mod(mod_id: int, mod_update: ModUpdate, db: Session = Depends(get_db)):
-    return update_mod_db(mod_id, mod_update, db)
+def update_mod(mod_id: int, update_detail: ModUpdate, db: Session = Depends(get_db)):
+    return update_mod_db(mod_id, update_detail, db)
 
 
 @app.get("/api/games/{game_id}/mods/{mod_id}/read", response_model=ModResponse)

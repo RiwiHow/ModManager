@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from utils.file_utils import (
     is_supported_format,
 )
-from utils.mod_installer import mod_installer
+from utils.mod_manager.mod_install import mod_installer
 
 from ...db_init import Game, Mod
 from ..pydantic import ModCreate

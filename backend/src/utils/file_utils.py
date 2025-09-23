@@ -63,3 +63,26 @@ def install_mod_to_game_directory(managed_mod_path, game_path: Path):
 
 def is_supported_format(filename: str):
     return any(filename.endswith(fmt) for fmt in [".zip", ".7z"])
+
+
+def uninstall_mod_from_game_directory(managed_mod_path: Path, game_path: Path):
+    try:
+        if not managed_mod_path.exists():
+            return
+
+        for root, dirs, files in managed_mod_path.walk():
+            rel_path = root.relative_to(managed_mod_path)
+            target_dir = game_path / rel_path
+
+            for file in files:
+                target_file = target_dir / file
+                if target_file.exists():
+                    target_file.unlink()
+
+            for dir_name in dirs:
+                target_subdir = target_dir / dir_name
+                if target_subdir.exists() and not any(target_subdir.iterdir()):
+                    target_subdir.rmdir()
+
+    except Exception:
+        raise

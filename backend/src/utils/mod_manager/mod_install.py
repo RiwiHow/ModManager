@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from fastapi import HTTPException
 from utils.file_utils import (
     copy_archive_to_temp_path,
@@ -7,7 +5,6 @@ from utils.file_utils import (
     extract_archive_to_managed_path,
     install_mod_to_game_directory,
 )
-from utils.game_detect import mod_path_detect
 
 
 async def mod_installer(mod_name, file, game):
