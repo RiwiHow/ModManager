@@ -65,14 +65,14 @@ def is_supported_format(filename: str):
     return any(filename.endswith(fmt) for fmt in [".zip", ".7z"])
 
 
-def uninstall_mod_from_game_directory(managed_mod_path: Path, game_path: Path):
+def uninstall_mod_from_game_directory(managed_mod_path: Path, mod_path: Path):
     try:
         if not managed_mod_path.exists():
             return
 
         for root, dirs, files in managed_mod_path.walk():
             rel_path = root.relative_to(managed_mod_path)
-            target_dir = game_path / rel_path
+            target_dir = mod_path / rel_path
 
             for file in files:
                 target_file = target_dir / file
